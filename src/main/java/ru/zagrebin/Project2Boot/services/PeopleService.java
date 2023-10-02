@@ -61,8 +61,8 @@ public class PeopleService {
 
             person.get().getCars().forEach(car -> {
                 long diffInMillies = Math.abs(car.getTakenAt().getTime() - new Date().getTime());
-
-                if(diffInMillies > 864000000)
+                long totalRentalTime = car.getRentalPeriod() * 86400000;
+                if(diffInMillies > totalRentalTime)
                     car.setExpired(true);
             });
 

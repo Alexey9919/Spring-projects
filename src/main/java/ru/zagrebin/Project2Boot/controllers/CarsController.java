@@ -2,6 +2,7 @@ package ru.zagrebin.Project2Boot.controllers;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -47,7 +48,8 @@ public class CarsController {
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model, @ModelAttribute("person") Person person) {
+    public String show(@PathVariable("id") int id, Model model, @ModelAttribute("person") Person person,
+                       @ModelAttribute("car") Car car) {
         model.addAttribute("car", carsService.findOne(id));
 
         Person carOwner = carsService.getBookOwner(id);
@@ -104,8 +106,10 @@ public class CarsController {
     }
 
     @PatchMapping("/{id}/assign")
-    public String assign(@PathVariable("id") int id, @ModelAttribute("person") Person selectedPerson) {
-        carsService.assign(id, selectedPerson);
+    public String assign(@PathVariable("id") int id, @ModelAttribute("person") Person selectedPerson,
+                         @ModelAttribute("car") Car car) {
+
+        carsService.assign(id, selectedPerson, car);
         return "redirect:/cars/" + id;
     }
 

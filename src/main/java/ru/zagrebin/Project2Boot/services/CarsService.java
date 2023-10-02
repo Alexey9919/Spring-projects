@@ -50,6 +50,7 @@ public class CarsService {
 
     @Transactional
     public void save(Car newCar) {
+        newCar.setRentalPeriod(0);
         carsRepository.save(newCar);
     }
 
@@ -83,11 +84,12 @@ public class CarsService {
     }
 
     @Transactional
-    public void assign(int id, Person selectedPerson) {
+    public void assign(int id, Person selectedPerson, Car newCar) {
         carsRepository.findById(id).ifPresent(
                 car -> {
                     car.setOwner(selectedPerson);
                     car.setTakenAt(new Date());
+                    car.setRentalPeriod(newCar.getRentalPeriod());
                 }
         );
     }

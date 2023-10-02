@@ -19,12 +19,18 @@
 
 <div th:if="${people}">
   <span>Этот автомобиль свободен. Кому назначить его?</span>
-  <form th:method="PATCH" th:action="@{/cars/{id}/assign(id=${car.getId()})}">
+  <hr/>
+  <form th:method="PATCH" th:action="@{/cars/{id}/assign(id=${car.getId()})}"  th:object="${car}">
     <label for="person">Выберите человека</label>
     <select th:object="${person}" th:field="*{id}" id="person">
       <option th:each="person : ${people}" th:value="${person.getId()}" th:text="${person.getFullName()}">
       </option>
     </select>
+    <br/>
+    <label for="rentalPeriod">Введите срок аренды(дней): </label>
+    <input type="text" th:field="*{rentalPeriod}" id="rentalPeriod"/>
+    <div style="color:red" th:if="${#fields.hasErrors('rentalPeriod')}" th:errors="*{rentalPeriod}">Rental Period</div>
+    <br/>
     <input type="submit" value="Назначить автомобиль"/>
   </form>
 </div>

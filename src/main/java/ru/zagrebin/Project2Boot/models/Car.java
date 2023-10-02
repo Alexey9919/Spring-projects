@@ -27,6 +27,7 @@ public class Car {
     @Column(name = "year")
     private int year;
 
+    @NotEmpty
     @Column(name = "state_number")
     private String stateNumber;
 
@@ -37,6 +38,9 @@ public class Car {
     @Column(name = "taken_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date takenAt;
+
+    @Column(name = "rental_period")
+    private int rentalPeriod;
 
     @Transient
     private boolean expired;
@@ -114,5 +118,13 @@ public class Car {
 
     public void setExpired(boolean expired) {
         this.expired = expired;
+    }
+
+    public int getRentalPeriod() {
+        return rentalPeriod;
+    }
+
+    public void setRentalPeriod(int rentalPeriod) {
+        this.rentalPeriod = rentalPeriod;
     }
 }
