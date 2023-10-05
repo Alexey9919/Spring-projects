@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Title</title>
+</head>
+<body>
+<p th:text="${car.getModel() + ', ' + car.getYear() + ', ' + car.getColor()}">Information</p>
+<p th:text="'Гос номер: ' + ${car.getStateNumber()}">Information state number</p>
+
+<div th:if="${owner}">
+  <span>Автомобиль сейчас у: </span> <span th:text="${owner.getFullName()}">Person Name</span>
+
+  <form th:method="PATCH" th:action="@{/cars/{id}/release(id=${car.getId()})}">
+    <input type="submit" value="Освободить автомобиль"/>
+  </form>
+</div>
+
+<div th:if="${people}">
+  <span>Этот автомобиль свободен. Кому назначить его?</span>
+  <hr/>
+  <form th:method="PATCH" th:action="@{/cars/{id}/assign(id=${car.getId()})}"  th:object="${car}">
+    <label for="person">Выберите человека</label>
+    <select th:object="${person}" th:field="*{id}" id="person">
+      <option th:each="person : ${people}" th:value="${person.getId()}" th:text="${person.getFullName()}">
+      </option>
+    </select>
+    <br/>
+    <label for="rentalPeriod">Введите срок аренды(дней): </label>
+    <input type="text" th:field="*{rentalPeriod}" id="rentalPeriod"/>
+    <div style="color:red" th:if="${#fields.hasErrors('rentalPeriod')}" th:errors="*{rentalPeriod}">Rental Period</div>
+    <br/>
+    <input type="submit" value="Назначить автомобиль"/>
+  </form>
+</div>
+
+<hr/>
+
+<form th:method="GET" th:action="@{/cars/{id}/edit(id=${car.getId()})}">
+  <input type="submit" value="Редактировать"/>
+</form>
+
+<form th:method="DELETE" th:action="@{/cars/{id}(id=${car.getId()})}">
+  <input type="submit" value="Удалить"/>
+</form>
+
+</body>
+</html>
