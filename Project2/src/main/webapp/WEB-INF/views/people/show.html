@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Show</title>
+</head>
+<body>
+<div th:text="${person.getFullName() + ', ' + person.getYearOfBirth()}">VALUE</div>
+<br/>
+<div th:text="'Номер договора: ' + ${person.getContractNumber()}">Contract number</div>
+
+<div th:if="${cars.isEmpty()}">
+    <p>Человек пока не взял ни одной машины</p>
+    <hr/>
+</div>
+
+<div th:if="${!cars.isEmpty()}">
+
+
+    <hr/>
+    <b>Автомобили:</b>
+    <br/>
+    <table th:each="car : ${cars}">
+        <tr>
+            <td>
+                <span th:text="${car.getModel() + ', ' + car.getColor() + ', ' + car.getYear()}"
+                      th:style="${car.isExpired()} ? 'color: red' : 'color: black'">
+                </span>
+            </td>
+        <tr/>
+        <br/>
+        <tr>
+            <td>
+                 <span th:text="${'Гос номер: ' + car.getStateNumber()}"
+                       th:style="${car.isExpired()} ? 'color: red' : 'color: black'">
+                </span>
+            </td>
+        <tr/>
+    </table>
+    <hr/>
+</div>
+
+
+
+
+<form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
+    <input type="submit" value="Редактировать"/>
+</form>
+
+<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
+    <input type="submit" value="Удалить"/>
+</form>
+
+</body>
+</html>
